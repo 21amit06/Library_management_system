@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
+
 const connectDB = require("./config/db");
 
 dotenv.config();
@@ -10,22 +11,23 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// DB
+connectDB();
+
+// ROUTES
+app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/books", require("./routes/bookRoutes"));
-app.use("/api/users", require("./routes/userRoutes"));
-app.use("/api/lend", require("./routes/lendingRoutes"));
-app.use("/api/payment", require("./routes/paymentRoutes"));
+app.use("/api/borrow", require("./routes/borrowRoutes"));
+app.use("/api/student", require("./routes/studentRoutes"));
+app.use("/api/admin", require("./routes/adminRoutes"));
 
-// ✅ NEW START LOGIC
-const startServer = async () => {
-  try {
-    await connectDB();
-    app.listen(process.env.PORT, () => {
-      console.log("Server running on port", process.env.PORT);
-    });
-  } catch (err) {
-    console.error(err);
-  }
-};
+// TEST
+app.get("/", (req, res) => {
+  res.send("API running");
+});
 
-startServer();
+const PORT = process.env.PORT || 5001;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

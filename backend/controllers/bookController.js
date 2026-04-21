@@ -1,15 +1,21 @@
 const Book = require("../models/Book");
 
-exports.addBook = async (req, res) => {
-    try{
-  const book = await Book.create(req.body);
-  res.json(book);}
-  catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
+// GET BOOKS
 exports.getBooks = async (req, res) => {
   const books = await Book.find();
   res.json(books);
+};
+
+// ADD BOOK
+exports.addBook = async (req, res) => {
+  const { title, author, totalCopies } = req.body;
+
+  const book = await Book.create({
+    title,
+    author,
+    totalCopies,
+    availableCopies: totalCopies
+  });
+
+  res.json(book);
 };

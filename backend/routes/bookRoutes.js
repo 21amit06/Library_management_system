@@ -1,8 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { addBook, getBooks } = require("../controllers/bookController");
 
-router.post("/add", addBook);
-router.get("/", getBooks);
+const bookController = require("../controllers/bookController");
+const auth = require("../middleware/authMiddleware");
+const role = require("../middleware/roleMiddleware");
+
+router.get("/", bookController.getBooks);
+
+// librarian only
+router.post("/", auth, role("librarian"), bookController.addBook);
 
 module.exports = router;
