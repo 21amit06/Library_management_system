@@ -22,12 +22,12 @@ function Sidebar() {
         {/* Books */}
         <li><Link to="/search">Books</Link></li>
 
-        {/* ✅ ONLY STUDENT */}
+        {/* ONLY STUDENT */}
         {role === "student" && (
           <li><Link to="/mybooks">My Books</Link></li>
         )}
 
-        {/* ✅ ONLY LIBRARIAN */}
+        {/* ONLY LIBRARIAN */}
         {role === "librarian" && (
           <li><Link to="/admin">Admin</Link></li>
         )}
